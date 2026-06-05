@@ -74,7 +74,9 @@ The gradient points in the direction of steepest ascent. To minimize a function,
 
 **Contour plot of f(x,y) = x^2 + y^2:**
 
-The function forms a bowl shape with concentric circles as contour lines. The minimum is at (0, 0).
+![Contour plot of f(x,y) = x^2 + y^2](assets/contour-plot.svg)
+
+The function forms a bowl shape with concentric circles as contour lines. The minimum is at (0, 0). The blue arrow at (1, 1) shows the negative gradient direction pointing downhill toward the minimum.
 
 | Point | grad f | -grad f (descent direction) |
 |-------|--------|----------------------------|
@@ -99,6 +101,48 @@ For every weight:
 ```
 
 The learning rate controls step size. Too big and you overshoot. Too small and you crawl.
+
+#### Why not just subtract the error?
+
+Beginners often ask: *"The gradient tells me the direction of the error — why not just subtract the error directly, instead of multiplying by a learning rate?"*
+
+The key distinction: **The gradient tells you which direction is downhill and how steep the slope is, but it does NOT tell you how far to go.**
+
+A concrete example. Let $f(x) = x^2$, starting at $x = 5$:
+
+$$
+x = 5, \quad f(5) = 25, \quad f'(5) = 10
+$$
+
+If we drop the learning rate (effectively setting $\text{lr} = 1$):
+
+$$
+x_{\text{new}} = 5 - 1 \times 10 = -5
+$$
+
+One step jumps from 5 to -5, and the loss stays at 25 — **zero improvement**. Starting at $x = 10$ (gradient = 20), one step would overshoot to -10 and diverge entirely. **The magnitude of the gradient depends on how steep the function is right now, not on how far away the minimum is.**
+
+Now consider why we cannot simply use the "error" in place of the "gradient." In linear regression $y = wx + b$:
+
+$$
+\frac{\partial L}{\partial w} = \frac{2}{n} \sum_{i=1}^{n} (\underbrace{wx_i + b - y_i}_{\text{error}}) \cdot x_i
+$$
+
+The gradient = error × input $x$. Subtracting the error directly ignores $x$:
+- If $x = 1000$, even a tiny error means a **small weight change has a huge effect on output** — we need small steps
+- If $x = 0.001$, even a large error requires **big weight adjustments to produce a visible change**
+
+The learning rate decouples "direction information" (the gradient) from "step size control" (the learning rate), allowing the optimizer to handle both independently.
+
+From the Taylor perspective, gradient descent relies on the first-order approximation $L(w + \Delta w) \approx L(w) + L'(w) \cdot \Delta w$, which is only valid close to the current point. The learning rate ensures the step stays within the region where this linear approximation holds.
+
+**In practice:**
+
+| Terrain | Gradient magnitude | Appropriate step size | Without learning rate |
+|---------|-------------------|---------------------|---------------------|
+| Steep canyon | Large | Small (0.01) | Diverges, explodes |
+| Flat plateau | Tiny | Large (0.1) | Barely moves |
+| Oscillating region | Erratic | Moderate, adaptive | Bounces back and forth |
 
 **Loss landscape (1D slice):**
 
