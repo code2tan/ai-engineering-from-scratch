@@ -43,6 +43,29 @@ graph LR
     e2 --> M --> e2p
 ```
 
+**计算示例：** 考虑矩阵 $M = \begin{bmatrix} 2 & 3 \\ 1 & 4 \end{bmatrix}$，看它对基向量做了什么：
+
+$e_1 = (1, 0)$ 变换后：
+
+$$
+M \cdot \begin{bmatrix} 1 \\ 0 \end{bmatrix} = \begin{bmatrix} 2 \cdot 1 + 3 \cdot 0 \\ 1 \cdot 1 + 4 \cdot 0 \end{bmatrix} = \begin{bmatrix} 2 \\ 1 \end{bmatrix}
+$$
+
+$e_2 = (0, 1)$ 变换后：
+$$
+M \cdot \begin{bmatrix} 0 \\ 1 \end{bmatrix} = \begin{bmatrix} 2 \cdot 0 + 3 \cdot 1 \\ 1 \cdot 0 + 4 \cdot 1 \end{bmatrix} = \begin{bmatrix} 3 \\ 4 \end{bmatrix}
+$$
+
+任意点 $(x, y)$ 变换后：
+$$
+M \cdot \begin{bmatrix} x \\ y \end{bmatrix} = x \begin{bmatrix} 2 \\ 1 \end{bmatrix} + y \begin{bmatrix} 3 \\ 4 \end{bmatrix} = \begin{bmatrix} 2x + 3y \\ x + 4y \end{bmatrix}
+$$
+
+例如点 $(1, 2)$：
+$$
+M \cdot \begin{bmatrix} 1 \\ 2 \end{bmatrix} = 1 \begin{bmatrix} 2 \\ 1 \end{bmatrix} + 2 \begin{bmatrix} 3 \\ 4 \end{bmatrix} = \begin{bmatrix} 2 \\ 1 \end{bmatrix} + \begin{bmatrix} 6 \\ 8 \end{bmatrix} = \begin{bmatrix} 8 \\ 9 \end{bmatrix}
+$$
+
 ### 旋转（Rotation）
 
 角度为 $\theta$ 的 2D 旋转保持距离和角度不变，将每个点沿圆弧移动。
@@ -63,6 +86,24 @@ graph LR
     A --> R --> Ap
     B --> R --> Bp
 ```
+
+**计算示例：** 旋转 45°（$\theta = 45° = \frac{\pi}{4}$），$\cos 45° = \sin 45° = \frac{\sqrt{2}}{2} \approx 0.707$：
+
+$$
+R(45°) = \begin{bmatrix} 0.707 & -0.707 \\ 0.707 & 0.707 \end{bmatrix}
+$$
+
+将点 $A(2, 1)$ 旋转 45°：
+
+$$
+A' = R(45°) \cdot \begin{bmatrix} 2 \\ 1 \end{bmatrix} = \begin{bmatrix} 0.707 & -0.707 \\ 0.707 & 0.707 \end{bmatrix} \begin{bmatrix} 2 \\ 1 \end{bmatrix} = \begin{bmatrix} 0.707 \times 2 + (-0.707) \times 1 \\ 0.707 \times 2 + 0.707 \times 1 \end{bmatrix} = \begin{bmatrix} 1.414 - 0.707 \\ 1.414 + 0.707 \end{bmatrix} = \begin{bmatrix} 0.71 \\ 2.12 \end{bmatrix}
+$$
+
+将点 $B(0, 2)$ 旋转 45°：
+
+$$
+B' = R(45°) \cdot \begin{bmatrix} 0 \\ 2 \end{bmatrix} = \begin{bmatrix} 0.707 & -0.707 \\ 0.707 & 0.707 \end{bmatrix} \begin{bmatrix} 0 \\ 2 \end{bmatrix} = \begin{bmatrix} 0 - 1.414 \\ 0 + 1.414 \end{bmatrix} = \begin{bmatrix} -1.41 \\ 1.41 \end{bmatrix}
+$$
 
 在 3D 中，绕一个轴旋转。每个轴有自己的旋转矩阵：
 
@@ -86,6 +127,16 @@ R_y(\theta) &= \begin{bmatrix}
 \end{aligned}
 $$
 
+**计算示例：** 将点 $(1, 0, 0)$ 绕 z 轴旋转 90°（$\theta = 90° = \frac{\pi}{2}$，$\cos 90° = 0$，$\sin 90° = 1$）：
+
+$$
+R_z(90°) = \begin{bmatrix} 0 & -1 & 0 \\ 1 & 0 & 0 \\ 0 & 0 & 1 \end{bmatrix}
+$$
+$$
+R_z(90°) \cdot \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix} = \begin{bmatrix} 0 \times 1 + (-1) \times 0 + 0 \times 0 \\ 1 \times 1 + 0 \times 0 + 0 \times 0 \\ 0 \times 1 + 0 \times 0 + 1 \times 0 \end{bmatrix} = \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix}
+$$
+点 $(1, 0, 0)$ 旋转到了 $(0, 1, 0)$，在 x-y 平面内转了 90°，z 坐标保持为 0 不变。
+
 ### 缩放（Scaling）
 
 缩放沿每个轴独立拉伸或压缩。
@@ -106,6 +157,18 @@ graph LR
     A --> S --> Ap
     B --> S --> Bp
 ```
+
+**计算示例：** 缩放矩阵 $S = \begin{bmatrix} 2 & 0 \\ 0 & 0.5 \end{bmatrix}$（x 方向拉长 2 倍，y 方向压缩到一半）：
+
+将点 $A(2, 1)$ 缩放：
+
+$$A' = S \cdot \begin{bmatrix} 2 \\ 1 \end{bmatrix} = \begin{bmatrix} 2 & 0 \\ 0 & 0.5 \end{bmatrix} \begin{bmatrix} 2 \\ 1 \end{bmatrix} = \begin{bmatrix} 2 \times 2 + 0 \times 1 \\ 0 \times 2 + 0.5 \times 1 \end{bmatrix} = \begin{bmatrix} 4 \\ 0.5 \end{bmatrix}$$
+
+将点 $B(0, 2)$ 缩放：
+
+$$B' = S \cdot \begin{bmatrix} 0 \\ 2 \end{bmatrix} = \begin{bmatrix} 2 & 0 \\ 0 & 0.5 \end{bmatrix} \begin{bmatrix} 0 \\ 2 \end{bmatrix} = \begin{bmatrix} 0 + 0 \\ 0 + 1 \end{bmatrix} = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$$
+
+注意：对角矩阵的每一行只影响对应的坐标——第一行只影响 x，第二行只影响 y。这就是为什么缩放矩阵总是对角矩阵。
 
 ### 剪切（Shearing）
 
@@ -132,6 +195,18 @@ graph LR
 - `Shx = [[1, k], [0, 1]]` — x 方向偏移 $k \cdot y$
 - `Shy = [[1, 0], [k, 1]]` — y 方向偏移 $k \cdot x$
 
+**计算示例：** x 方向剪切，$k = 1$，矩阵 $Sh_x = \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix}$：
+
+将点 $A(1, 0)$ 剪切：
+
+$$A' = Sh_x \cdot \begin{bmatrix} 1 \\ 0 \end{bmatrix} = \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ 0 \end{bmatrix} = \begin{bmatrix} 1 \times 1 + 1 \times 0 \\ 0 \times 1 + 1 \times 0 \end{bmatrix} = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$$
+
+将点 $B(0, 1)$ 剪切：
+
+$$B' = Sh_x \cdot \begin{bmatrix} 0 \\ 1 \end{bmatrix} = \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix} \begin{bmatrix} 0 \\ 1 \end{bmatrix} = \begin{bmatrix} 1 \times 0 + 1 \times 1 \\ 0 \times 0 + 1 \times 1 \end{bmatrix} = \begin{bmatrix} 1 \\ 1 \end{bmatrix}$$
+
+$A(1, 0)$ 在 x 轴上不受影响（因为 y=0 时偏移量为 0）；$B(0, 1)$ 的 x 坐标被偏移了 $k \times y = 1 \times 1 = 1$，从 0 移到了 1。这就是"剪切"的效果——y 越大，x 被推得越远。
+
 ### 反射（Reflection）
 
 反射将点关于某条轴或直线做镜像。
@@ -154,6 +229,20 @@ graph LR
 - 关于 y 轴反射：`[[-1, 0], [0, 1]]`
 - 关于 x 轴反射：`[[1, 0], [0, -1]]`
 
+**计算示例：** 关于 y 轴反射，矩阵 $R_y = \begin{bmatrix} -1 & 0 \\ 0 & 1 \end{bmatrix}$：
+
+将点 $A(2, 1)$ 反射：
+
+$$A' = R_y \cdot \begin{bmatrix} 2 \\ 1 \end{bmatrix} = \begin{bmatrix} -1 & 0 \\ 0 & 1 \end{bmatrix} \begin{bmatrix} 2 \\ 1 \end{bmatrix} = \begin{bmatrix} -1 \times 2 + 0 \times 1 \\ 0 \times 2 + 1 \times 1 \end{bmatrix} = \begin{bmatrix} -2 \\ 1 \end{bmatrix}$$
+
+x 坐标变成了相反数（翻到了 y 轴的另一侧），y 坐标保持不变。这就是关于 y 轴的镜像。
+
+关于 x 轴反射，矩阵 $R_x = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}$：
+
+$$R_x \cdot \begin{bmatrix} 2 \\ 1 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} \begin{bmatrix} 2 \\ 1 \end{bmatrix} = \begin{bmatrix} 1 \times 2 + 0 \times 1 \\ 0 \times 2 + (-1) \times 1 \end{bmatrix} = \begin{bmatrix} 2 \\ -1 \end{bmatrix}$$
+
+y 坐标变成了相反数，x 坐标不变。关于 x 轴的镜像。
+
 ### 组合：变换的链式应用（Composition: chaining transformations）
 
 先应用变换 A 再应用 B，等价于矩阵乘法：`result = B @ A @ point`。顺序至关重要。先旋转再缩放与先缩放再旋转的结果完全不同。
@@ -165,7 +254,17 @@ graph LR
     end
 ```
 
-合成矩阵：`S @ R = [[0, -2], [0.5, 0]]`
+**计算示例 —— 先旋转再缩放：**
+
+旋转 90° 矩阵 $R = \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix}$，缩放矩阵 $S = \begin{bmatrix} 2 & 0 \\ 0 & 0.5 \end{bmatrix}$
+
+合成矩阵 $S \cdot R$（从右往左读：先 R 后 S）：
+
+$$S \cdot R = \begin{bmatrix} 2 & 0 \\ 0 & 0.5 \end{bmatrix} \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix} = \begin{bmatrix} 2 \times 0 + 0 \times 1 & 2 \times (-1) + 0 \times 0 \\ 0 \times 0 + 0.5 \times 1 & 0 \times (-1) + 0.5 \times 0 \end{bmatrix} = \begin{bmatrix} 0 & -2 \\ 0.5 & 0 \end{bmatrix}$$
+
+对点 $(1, 0)$ 应用：
+
+$$\begin{bmatrix} 0 & -2 \\ 0.5 & 0 \end{bmatrix} \begin{bmatrix} 1 \\ 0 \end{bmatrix} = \begin{bmatrix} 0 \\ 0.5 \end{bmatrix}$$
 
 ```mermaid
 graph LR
@@ -174,14 +273,21 @@ graph LR
     end
 ```
 
-合成矩阵：`R @ S = [[0, -0.5], [2, 0]]`
+**计算示例 —— 先缩放再旋转：**
 
-结果不同。矩阵乘法不满足交换律。
+合成矩阵 $R \cdot S$（先 S 后 R）：
+
+$$R \cdot S = \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix} \begin{bmatrix} 2 & 0 \\ 0 & 0.5 \end{bmatrix} = \begin{bmatrix} 0 \times 2 + (-1) \times 0 & 0 \times 0 + (-1) \times 0.5 \\ 1 \times 2 + 0 \times 0 & 1 \times 0 + 0 \times 0.5 \end{bmatrix} = \begin{bmatrix} 0 & -0.5 \\ 2 & 0 \end{bmatrix}$$
+
+对点 $(1, 0)$ 应用：
+
+$$\begin{bmatrix} 0 & -0.5 \\ 2 & 0 \end{bmatrix} \begin{bmatrix} 1 \\ 0 \end{bmatrix} = \begin{bmatrix} 0 \\ 2 \end{bmatrix}$$
+
+结果 $(0, 0.5) \neq (0, 2)$，矩阵乘法不满足交换律。
 
 ### 特征值与特征向量（Eigenvalues and eigenvectors）
 
 大多数向量在被矩阵作用后会改变方向。特征向量是特殊的：矩阵只能缩放它，永远不会旋转它。缩放倍数就是特征值。
-
 $$
 \begin{aligned}
 A @ v &= \lambda \cdot v \\[15pt]
@@ -189,31 +295,39 @@ v &\text{ 是特征向量（不被改变方向的方向）} \\
 \lambda &\text{ 是特征值（拉伸的倍数）}
 \end{aligned}
 $$
-
 例如，矩阵 $A$：
-
 $$
 A = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}
 $$
-
 特征向量 $[1, 1]$ 对应的特征值为 $3$：
-
 $$
 A \cdot \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \begin{bmatrix} 3 \\ 3 \end{bmatrix} = 3 \cdot \begin{bmatrix} 1 \\ 1 \end{bmatrix} \quad (\text{方向不变，缩放 3 倍})
 $$
-
 特征向量 $[1, -1]$ 对应的特征值为 $1$：
-
 $$
 A \cdot \begin{bmatrix} 1 \\ -1 \end{bmatrix} = \begin{bmatrix} 1 \\ -1 \end{bmatrix} = 1 \cdot \begin{bmatrix} 1 \\ -1 \end{bmatrix} \quad (\text{方向不变，长度不变})
 $$
-
 该矩阵使空间沿 $[1, 1]$ 方向拉伸 3 倍，而沿 $[1, -1]$ 方向保持不变。其他所有方向都是这两个方向的混合。
+
+**如何手算特征值：** 对于 $A = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$，解特征方程 $\det(A - \lambda I) = 0$：
+
+$$A - \lambda I = \begin{bmatrix} 2 - \lambda & 1 \\ 1 & 2 - \lambda \end{bmatrix}$$
+
+$$\det(A - \lambda I) = (2 - \lambda)(2 - \lambda) - 1 \times 1 = \lambda^2 - 4\lambda + 3 = 0$$
+
+解二次方程：$(\lambda - 1)(\lambda - 3) = 0$，得 $\lambda_1 = 3$，$\lambda_2 = 1$。
+
+代入 $\lambda_1 = 3$ 求特征向量，解 $(A - 3I)v = 0$：
+
+$$\begin{bmatrix} -1 & 1 \\ 1 & -1 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \;\Rightarrow\; -x + y = 0 \;\Rightarrow\; y = x \;\Rightarrow\; v_1 = \begin{bmatrix} 1 \\ 1 \end{bmatrix}$$
+
+代入 $\lambda_2 = 1$ 求特征向量，解 $(A - 1I)v = 0$：
+
+$$\begin{bmatrix} 1 & 1 \\ 1 & 1 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \;\Rightarrow\; x + y = 0 \;\Rightarrow\; y = -x \;\Rightarrow\; v_2 = \begin{bmatrix} 1 \\ -1 \end{bmatrix}$$
 
 ### 特征分解（Eigendecomposition）
 
 如果一个矩阵有 $n$ 个线性无关的特征向量，它可以被分解为：
-
 $$
 \begin{aligned}
 A &= V @ D @ V^{-1} \\[15pt]
@@ -222,7 +336,6 @@ D &= \text{特征值构成的对角矩阵} \\
 V^{-1} &= \text{V 的逆矩阵（Inverse）}
 \end{aligned}
 $$
-
 这意味着：先旋转到特征向量坐标系，再沿各轴缩放，最后旋转回去。
 
 ### 特征值为何重要
@@ -235,7 +348,12 @@ $$
 
 ### 行列式作为体积缩放因子（Determinant as volume scaling factor）
 
-变换矩阵的行列式（Determinant）告诉你在 2D 中面积如何缩放，在 3D 中体积如何缩放。
+变换矩阵的行列式（Determinant），记作 $\det(M)$ 或 $|M|$，告诉你在 2D 中面积如何缩放，在 3D 中体积如何缩放。
+$$
+\begin{aligned}
+\det(M) = |M| = \begin{vmatrix} a & b \\ c & d \end{vmatrix} = ad - bc
+\end{aligned}
+$$
 
 $$
 \begin{aligned}
@@ -245,9 +363,7 @@ $$
 \det &= -1: \quad \text{面积不变但朝向翻转（反射）}
 \end{aligned}
 $$
-
 常见变换的行列式：
-
 $$
 \begin{aligned}
 |\det(\text{旋转})| &= 1 \quad \text{（始终）} \\[5pt]
@@ -256,6 +372,34 @@ $$
 |\det(\text{反射})| &= -1 \quad \text{（朝向翻转）}
 \end{aligned}
 $$
+**计算示例：** 对于 2×2 矩阵 $M = \begin{bmatrix} a & b \\ c & d \end{bmatrix}$，行列式记作 $\det(M)$ 或 $|M|$，计算公式为 $\det(M) = ad - bc$。
+
+也可以用竖线写法：
+$$
+\det(M) = |M| = \begin{vmatrix} a & b \\ c & d \end{vmatrix} = ad - bc
+$$
+
+旋转矩阵 $R(45°) = \begin{bmatrix} 0.707 & -0.707 \\ 0.707 & 0.707 \end{bmatrix}$：
+
+$$\det(R) = 0.707 \times 0.707 - (-0.707) \times 0.707 = 0.5 + 0.5 = 1.0$$
+
+缩放矩阵 $S(2, 0.5) = \begin{bmatrix} 2 & 0 \\ 0 & 0.5 \end{bmatrix}$：
+
+$$\det(S) = 2 \times 0.5 - 0 \times 0 = 1.0$$
+
+剪切矩阵 $Sh_x = \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix}$：
+
+$$\det(Sh_x) = 1 \times 1 - 1 \times 0 = 1$$
+
+反射矩阵 $R_y = \begin{bmatrix} -1 & 0 \\ 0 & 1 \end{bmatrix}$：
+
+$$\det(R_y) = (-1) \times 1 - 0 \times 0 = -1$$
+
+奇异矩阵 $\begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix}$（第二列是第一列的 2 倍）：
+
+$$\det = 1 \times 4 - 2 \times 2 = 4 - 4 = 0$$
+
+行列式为 0 意味着该矩阵将 2D 空间压缩到了一条直线上（维度降低），变换不可逆。
 
 ## 动手实现（Build It）
 
