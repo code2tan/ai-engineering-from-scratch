@@ -79,7 +79,7 @@ $$
 
     对于每个权重：
         w_i = w_i + learning_rate * error * x_i
-    	bias = bias + learning_rate * error
+    bias = bias + learning_rate * error
 ```
 
 如果预测正确，误差为 0，什么都不变。如果预测为 0 但应该是 1，权重增加。如果预测为 1 但应该是 0，权重减小。学习率控制每次调整的幅度。
